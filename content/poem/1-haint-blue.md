@@ -25,7 +25,7 @@ A sight you don’t see so much these days -
 Now all these screens seem to go on forever,
 Never turn off ever, refuse to take no for an answer.
 Every colour under the sun in your palm
-Chromatic stigmata bleeding into the world
+A chromatic stigmata bleeding into the world;
 This [[abhaya-mudra|abhaya-mudra]] of the [[the-blazing-world|blazing-world]],
 A [[hamsa|hamsa]] that guarantees no protection. ^first-3
 
