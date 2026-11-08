@@ -64,6 +64,34 @@ listing page automatically (e.g. `/tags/folklore`).
 `REFERENCES.md` (in the repository root, not published) is the working list of references
 still to add, with a suggested one-line identification for each.
 
+## The editor
+
+For linking phrases and writing references there is a small editor that runs on your
+computer:
+
+```bash
+npm run editor
+```
+
+Then open **http://localhost:4000**. It also starts the site preview on
+http://localhost:8080, which updates every time you save. Stop both with Ctrl+C.
+
+- **Link a phrase:** select words within one line of the poem. Choose an existing
+  reference, a suggestion from your to-do list, or **＋ New reference**.
+- **Change or remove a link:** click a highlighted phrase.
+- **Edit a reference:** choose it from the list on the left. Save with the button or
+  Ctrl/Cmd+S. “See also” adds a link to another reference. Each reference shows where
+  it appears in the poem (click a line to jump to it) and which references link to it.
+- **To-do:** the second tab lists the references in `REFERENCES.md` not yet created.
+  Clicking one opens it with its one-line identification filled in and, when its phrase
+  can be found in the poem, links it as soon as you create it.
+- **Publish…** shows what you’ve changed, then commits and pushes it; the live site
+  updates a minute or two later.
+
+The editor can add, change and remove links in the poem, but it refuses any change to the
+words themselves. Edit the text of the poem in Obsidian or a text editor. Both work on the
+same files, and the editor reloads when you switch back to it.
+
 ## Previewing locally
 
 You need [Node.js](https://nodejs.org/) 22 or newer.
@@ -95,4 +123,5 @@ One-time setup:
 | `quartz/components/PoemNav.tsx` + `scripts/poemnav.inline.ts` | “Return to the poem” (back to the exact stanza) and the reader’s trail |
 | `quartz/styles/custom.scss` | Black space, haint-blue links, verse typography, mobile tweaks |
 | `quartz.config.ts`, `quartz.layout.ts` | Site settings and page layout |
+| `editor/` | The local editor (`npm run editor`) |
 | `quartz/components/scripts/explorer.inline.ts` | One-line fix so the sidebar doesn’t scroll the page on load |
