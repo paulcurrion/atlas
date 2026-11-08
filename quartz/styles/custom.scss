@@ -1,0 +1,130 @@
+@use "./base.scss";
+@use "./variables.scss" as *;
+
+// ── An Atlas of Haunted Houses ──────────────────────────────────────────────
+// The poem floats in black space; every highlighted phrase is a way into the atlas.
+
+body {
+  background-color: var(--light);
+}
+
+// faint starfield behind everything
+html {
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1px 1px at 78% 9%, rgba(255, 255, 255, 0.25), transparent 60%),
+    radial-gradient(1px 1px at 63% 72%, rgba(255, 255, 255, 0.2), transparent 60%),
+    radial-gradient(1px 1px at 28% 84%, rgba(255, 255, 255, 0.25), transparent 60%),
+    radial-gradient(1.5px 1.5px at 91% 56%, rgba(143, 211, 220, 0.35), transparent 60%),
+    #050608;
+  background-attachment: fixed;
+}
+body {
+  background: transparent;
+}
+
+h1.article-title {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+// the theme toggle has no meaning when there is only night
+.darkmode {
+  display: none;
+}
+
+// ── The poem ────────────────────────────────────────────────────────────────
+// Section pages and the landing page get verse typography: stanzas as blocks,
+// generous space between them, lines never reflowed into prose.
+
+body[data-slug="index"] article,
+body[data-slug^="poem/"] article {
+  font-size: 1.2rem;
+  line-height: 1.75;
+
+  p {
+    margin: 0 0 2.2em;
+    padding: 0.2em 0.6em;
+    margin-left: -0.6em;
+    border-radius: 4px;
+    transition: background-color 1.2s ease;
+  }
+
+  // a stanza the reader has just returned to
+  p.arrived {
+    background-color: var(--highlight);
+    transition: background-color 0.2s ease;
+  }
+
+  hr {
+    margin: 3rem 0 1.5rem;
+    border-color: var(--lightgray);
+  }
+
+  // previous / next section links after the rule
+  hr ~ p {
+    font-size: 0.9rem;
+    color: var(--gray);
+  }
+
+  h2 {
+    margin-top: 4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+}
+
+// links into the atlas: haint blue, glowing faintly
+article a.internal {
+  color: var(--secondary);
+  background-color: transparent;
+  padding: 0;
+  font-weight: normal;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(143, 211, 220, 0.35);
+  transition:
+    text-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    text-shadow: 0 0 12px rgba(143, 211, 220, 0.6);
+    border-color: var(--secondary);
+  }
+}
+
+// On the landing page the sections are embedded whole; hide the embedded
+// page footers and "link to original" markers, the headings already link.
+body[data-slug="index"] .transclude {
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  .transclude-src,
+  > h1,
+  hr,
+  hr ~ p {
+    display: none;
+  }
+}
+
+// ── Reference pages ─────────────────────────────────────────────────────────
+
+body[data-slug^="refs/"] article {
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+// ── Mobile ──────────────────────────────────────────────────────────────────
+
+@media all and ($mobile) {
+  body[data-slug="index"] article,
+  body[data-slug^="poem/"] article {
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+
+  // generous tap targets for links inside verse
+  article a.internal {
+    padding: 0.15em 0;
+  }
+}
