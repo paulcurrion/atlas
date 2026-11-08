@@ -1,6 +1,33 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
+const isRef = (slug?: string) => !!slug?.startsWith("refs/") && slug !== "refs/index"
+
+const graph = Component.Graph({
+  localGraph: {
+    depth: 2, // the current node, its neighbours, and theirs
+    showTags: false,
+    linkDistance: 40,
+    fontSize: 0.55,
+  },
+  globalGraph: {
+    showTags: false,
+    linkDistance: 40,
+    fontSize: 0.5,
+  },
+})
+
+const explorer = Component.Explorer({
+  title: "Atlas",
+  folderDefaultState: "collapsed",
+  // keep the six sections in poem order rather than alphabetical
+  sortFn: (a, b) => {
+    if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
+    return a.slugSegment.localeCompare(b.slugSegment, undefined, { numeric: true })
+  },
+  filterFn: (node) => node.slugSegment !== "tags",
+})
+
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -8,61 +35,48 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      "currion.net": "https://www.currion.net",
     },
   }),
 }
 
-// components for pages that display a single page (e.g. a single note)
+// components for pages that display a single page (the poem, its sections, references)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
+      component: Component.PoemNav(),
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
+    Component.InThePoem(),
+    Component.ConditionalRender({
+      component: Component.TagList(),
+      condition: (page) => isRef(page.fileData.slug),
+    }),
   ],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
-    Component.Explorer(),
+    Component.Search(),
+    Component.DesktopOnly(explorer),
   ],
   right: [
-    Component.Graph(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    graph,
+    Component.ConditionalRender({
+      component: Component.Backlinks(),
+      condition: (page) => isRef(page.fileData.slug),
+    }),
   ],
 }
 
-// components for pages that display lists of pages  (e.g. tags or folders)
+// components for pages that display lists of pages (the reference index, reference types)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  beforeBody: [Component.PoemNav(), Component.ArticleTitle()],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
-    Component.Explorer(),
+    Component.Search(),
+    Component.DesktopOnly(explorer),
   ],
-  right: [],
+  right: [graph],
 }
