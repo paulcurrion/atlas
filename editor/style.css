@@ -1,0 +1,436 @@
+:root {
+  --bg: #050608;
+  --panel: #0c0f13;
+  --line: #1f252c;
+  --text: #cfd5dc;
+  --muted: #7a848f;
+  --bright: #eef2f6;
+  --haint: #8fd3dc;
+  --haint-dim: rgba(143, 211, 220, 0.14);
+  --warn: #e7b36b;
+  --danger: #e57f7f;
+  --serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+}
+.hidden {
+  display: none !important;
+}
+
+/* ── top bar ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  height: 52px;
+}
+.topbar h1 {
+  font: 500 19px var(--serif);
+  color: var(--bright);
+  margin: 0;
+  white-space: nowrap;
+}
+.topbar h1 span {
+  color: var(--muted);
+  font-style: italic;
+}
+.status {
+  flex: 1;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.status.error {
+  color: var(--danger);
+}
+.status.ok {
+  color: var(--haint);
+}
+
+/* ── buttons & inputs ── */
+.button {
+  font: inherit;
+  background: var(--haint);
+  color: #041014;
+  border: 1px solid var(--haint);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.button.ghost {
+  background: transparent;
+  color: var(--haint);
+}
+.button.danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.button.small {
+  padding: 4px 10px;
+  font-size: 13px;
+}
+.button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+.tab:focus-visible {
+  outline: 2px solid var(--haint);
+  outline-offset: 1px;
+}
+input,
+textarea,
+select {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 9px;
+  width: 100%;
+}
+textarea {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.5;
+  resize: vertical;
+}
+label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin: 12px 0 4px;
+}
+label > input,
+label > textarea {
+  margin-top: 4px;
+}
+label.check {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: 6px 0;
+}
+label.check input {
+  width: auto;
+}
+
+/* ── layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 280px minmax(360px, 1fr) 440px;
+  height: calc(100% - 52px);
+}
+.layout > * {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* ── sidebar ── */
+.sidebar {
+  border-right: 1px solid var(--line);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+.tab {
+  flex: 1;
+  font: inherit;
+  background: none;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+}
+.tab.active {
+  color: var(--bright);
+  border-color: var(--haint);
+}
+.tab span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list li {
+  padding: 7px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.list li:hover,
+.list li.active,
+.list li[aria-selected="true"] {
+  background: var(--haint-dim);
+}
+.list li.active {
+  border-color: rgba(143, 211, 220, 0.4);
+}
+.list .title {
+  color: var(--bright);
+  font-family: var(--serif);
+  font-size: 16px;
+}
+.list .meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.list .meta .warn {
+  color: var(--warn);
+}
+.list .group {
+  cursor: default;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 8px 4px;
+  background: none !important;
+}
+.list .done .title {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* ── poem ── */
+.poem {
+  padding: 24px 40px 120px;
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.7;
+}
+.poem .hint {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 24px;
+}
+.poem h2 {
+  font-weight: 500;
+  color: var(--bright);
+  font-size: 24px;
+  margin: 48px 0 16px;
+}
+.poem h2:first-child {
+  margin-top: 0;
+}
+.line {
+  min-height: 1.7em;
+  white-space: pre-wrap;
+  border-radius: 4px;
+  padding: 0 6px;
+  margin: 0 -6px;
+  transition: background-color 1s;
+}
+.line.gap {
+  min-height: 1.2em;
+}
+.line.flash {
+  background: var(--haint-dim);
+  transition: background-color 0.1s;
+}
+.line ::selection {
+  background: rgba(143, 211, 220, 0.35);
+}
+.lk {
+  color: var(--haint);
+  border-bottom: 1px solid rgba(143, 211, 220, 0.4);
+  cursor: pointer;
+}
+.lk:hover,
+.lk.current {
+  background: var(--haint-dim);
+}
+.lk.nav {
+  color: var(--muted);
+  border-bottom-style: dotted;
+  cursor: default;
+}
+.lk.missing {
+  color: var(--warn);
+  border-bottom-color: var(--warn);
+}
+
+/* ── editor panel ── */
+.editor {
+  border-left: 1px solid var(--line);
+  padding: 18px 20px 60px;
+}
+.editor .empty {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.editor .empty h2 {
+  font: 500 20px var(--serif);
+  color: var(--bright);
+}
+.editor h2 {
+  font: 500 22px var(--serif);
+  color: var(--bright);
+  margin: 0 0 2px;
+}
+.editor .slug {
+  color: var(--muted);
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+}
+.editor .row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 16px;
+}
+.editor .spacer {
+  flex: 1;
+}
+.editor .dirty {
+  color: var(--warn);
+  font-size: 12px;
+}
+.editor .pending {
+  margin-top: 12px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--haint);
+  background: var(--haint-dim);
+  font-size: 13px;
+}
+.editor .pending.warn {
+  border-color: var(--warn);
+  background: rgba(231, 179, 107, 0.08);
+}
+.editor h3 {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 24px 0 6px;
+}
+.usage li {
+  font-family: var(--serif);
+  font-size: 15px;
+}
+.usage mark {
+  background: none;
+  color: var(--haint);
+}
+.usage .meta {
+  font-family: var(--sans);
+}
+.see-also {
+  display: flex;
+  gap: 6px;
+}
+.see-also input {
+  flex: 1;
+}
+
+/* ── popover ── */
+.popover {
+  position: fixed;
+  z-index: 10;
+  width: 340px;
+  background: var(--panel);
+  border: 1px solid rgba(143, 211, 220, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+.picker-head {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.picker-head b {
+  color: var(--bright);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: normal;
+}
+.picker-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.picker-actions:empty {
+  display: none;
+}
+.list.compact {
+  max-height: 280px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+.list.compact .title {
+  font-size: 15px;
+}
+
+/* ── dialog ── */
+dialog {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  width: min(560px, 92vw);
+  padding: 20px;
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+dialog h2 {
+  font: 500 20px var(--serif);
+  color: var(--bright);
+  margin-top: 0;
+}
+dialog ul {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+dialog pre {
+  font-size: 12px;
+  background: var(--bg);
+  padding: 10px;
+  border-radius: 6px;
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
