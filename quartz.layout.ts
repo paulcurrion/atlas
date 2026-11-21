@@ -17,16 +17,10 @@ const graph = Component.Graph({
   },
 })
 
-const explorer = Component.Explorer({
-  title: "Atlas",
-  folderDefaultState: "collapsed",
-  // keep the six sections in poem order rather than alphabetical
-  sortFn: (a, b) => {
-    if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
-    return a.slugSegment.localeCompare(b.slugSegment, undefined, { numeric: true })
-  },
-  filterFn: (node) => node.slugSegment !== "tags",
-})
+const isPoem = (slug?: string) => slug === "index" || (!!slug?.startsWith("poem/") && slug !== "poem/index")
+
+// left-hand menu: the sections of the poem, nothing else
+const sections = Component.Sections()
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
@@ -43,6 +37,7 @@ export const sharedPageComponents: SharedLayout = {
 // components for pages that display a single page (the poem, its sections, references)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
+    Component.MobileOnly(sections),
     Component.ConditionalRender({
       component: Component.PoemNav(),
       condition: (page) => page.fileData.slug !== "index",
@@ -58,10 +53,15 @@ export const defaultContentPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
-    Component.DesktopOnly(explorer),
+    Component.DesktopOnly(sections),
   ],
   right: [
     graph,
+    // on poem pages, references open here instead of replacing the poem
+    Component.ConditionalRender({
+      component: Component.ReferencePanel(),
+      condition: (page) => isPoem(page.fileData.slug),
+    }),
     Component.ConditionalRender({
       component: Component.Backlinks(),
       condition: (page) => isRef(page.fileData.slug),
@@ -71,12 +71,12 @@ export const defaultContentPageLayout: PageLayout = {
 
 // components for pages that display lists of pages (the reference index, reference types)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.PoemNav(), Component.ArticleTitle()],
+  beforeBody: [Component.MobileOnly(sections), Component.PoemNav(), Component.ArticleTitle()],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
-    Component.DesktopOnly(explorer),
+    Component.DesktopOnly(sections),
   ],
   right: [graph],
 }

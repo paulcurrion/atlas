@@ -25,6 +25,8 @@ import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import InThePoem from "./InThePoem"
 import PoemNav from "./PoemNav"
+import Sections from "./Sections"
+import ReferencePanel from "./ReferencePanel"
 
 export {
   ArticleTitle,
@@ -54,4 +56,6 @@ export {
   ConditionalRender,
   InThePoem,
   PoemNav,
+  Sections,
+  ReferencePanel,
 }
