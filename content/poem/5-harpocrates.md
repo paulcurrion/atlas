@@ -45,7 +45,7 @@ Let us be the [[mutes-who-do-not-speak|mutes who do not speak]],
 Despite our multitude of words.
 Let us recognise [[map-and-territory|the limitation of the map]],
 The semantic disturbance in the organism.
-Let us end the world even though
+Let us [[end-the-world|end the world]] even though
 It is nothing more than the end of an illusion.
 Let us build our own [[wall-of-silence|wall of silence]] defending
 The city of our minds against enemy spears.

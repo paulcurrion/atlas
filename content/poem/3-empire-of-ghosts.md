@@ -44,7 +44,7 @@ A hegemon hegemon-ing itself? Surely no.
 The companies simply won’t allow it.
 In the end attention is all they need.
 Let them enjoy their imperial phase,
-Even if their new clothes are unable
+Even if [[emperors-new-clothes|their new clothes]] are unable
 To conceal their thrusting ambitions,
 Their self-serving admonitions
 That we trust and mistrust them
