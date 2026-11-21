@@ -36,7 +36,7 @@ Hello? I’m calling to schedule an exorcism,
 Tender scientists out there bare-knuckling
 [[few-shot-learners|Few-shot learners]] into finally accepting
 Some version of [[noble-eightfold-path|the noble eightfold path]],
-Or naming [[phronesis|phronesis]] as their cardinal (virtue),
+Or elevating [[phronesis|phronesis]] as their cardinal,
 Anything to overthrow [[reign-of-quantity|this reign of quantity]]. ^fifth-3
 
 So let us play a profound melody
