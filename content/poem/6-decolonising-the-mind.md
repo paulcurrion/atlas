@@ -1,5 +1,5 @@
 ---
-title: Finally. Decolonising the Mind
+title: "Finally. [[decolonising-the-mind|Decolonising the Mind]]"
 ---
 
 [[macbeth-dagger|Is this a dagger which I see before me?]]

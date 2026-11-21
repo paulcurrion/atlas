@@ -1,5 +1,5 @@
 ---
-title: Fourth. The Exegesis of Douglas Quail
+title: "Fourth. The [[philip-k-dick-exegesis|Exegesis]] of [[total-recall|Douglas Quail]]"
 ---
 
 We live in times ancient and modern,

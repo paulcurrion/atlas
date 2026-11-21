@@ -68,6 +68,25 @@ function tokenize(raw) {
   return out
 }
 
+// A section's title lives in its frontmatter as  title: "First. [[haint-blue|Haint Blue]]".
+// The editor works on the text inside the quotes and writes it back quoted.
+function unquote(v) {
+  v = v.trim()
+  if (v.startsWith('"') && v.endsWith('"'))
+    try {
+      return JSON.parse(v)
+    } catch {
+      return v.slice(1, -1)
+    }
+  if (v.startsWith("'") && v.endsWith("'")) return v.slice(1, -1).replace(/''/g, "'")
+  return v
+}
+function lineText(sec, i) {
+  const raw = sec.lines[i]
+  if (i !== sec.titleLine) return { text: raw, wrap: (t) => t }
+  return { text: unquote(raw.replace(/^title:\s*/, "")), wrap: (t) => `title: ${JSON.stringify(t)}` }
+}
+
 const displayOf = (tokens) =>
   tokens.map((t) => (t.type === "text" ? t.raw : t.type === "anchor" ? "" : t.display)).join("")
 
@@ -86,8 +105,9 @@ function computeUsage() {
   usage = new Map()
   state.sections.forEach((sec, s) => {
     const [from, to] = bodyRange(sec.lines)
-    for (let i = from; i < to; i++) {
-      const tokens = tokenize(sec.lines[i])
+    const indices = [...(sec.titleLine >= 0 ? [sec.titleLine] : []), ...Array.from({ length: to - from }, (_, n) => from + n)]
+    for (const i of indices) {
+      const tokens = tokenize(lineText(sec, i).text)
       for (const t of tokens)
         if (t.type === "link") {
           if (!usage.has(t.target)) usage.set(t.target, [])
@@ -101,37 +121,44 @@ const isPoemPage = (slug) => state.sections.some((s) => s.file.replace(/\.md$/, 
 
 // ── the poem ─────────────────────────────────────────────────────────────────
 
+function renderLine(sec, s, i, tag, className) {
+  const { text } = lineText(sec, i)
+  const line = el(tag, { className })
+  line.dataset.s = s
+  line.dataset.i = i
+  tokenize(text).forEach((t, k) => {
+    if (t.type === "text") line.append(el("span", { className: "t", textContent: t.raw, dataset: { k } }))
+    else if (t.type === "esc") line.append(el("span", { className: "e", textContent: t.display }))
+    else if (t.type === "link") {
+      const nav = isPoemPage(t.target)
+      const missing = !nav && !refsBySlug.has(t.target)
+      const span = el("span", {
+        className: `lk${nav ? " nav" : ""}${missing ? " missing" : ""}${current?.slug === t.target ? " current" : ""}`,
+        textContent: t.display,
+        title: nav ? `Link to ${t.target}` : missing ? `No reference file “${t.target}” yet` : refsBySlug.get(t.target).title,
+      })
+      span.dataset.k = k
+      span.dataset.target = t.target
+      if (!nav) span.addEventListener("click", (e) => openLinkPicker(e, span))
+      line.append(span)
+    }
+  })
+  return line
+}
+
 function renderPoem() {
   const root = $("#sections")
   root.replaceChildren()
   state.sections.forEach((sec, s) => {
-    root.append(el("h2", { textContent: sec.title }))
+    root.append(
+      sec.titleLine >= 0 ? renderLine(sec, s, sec.titleLine, "h2", "line title-line") : el("h2", { textContent: sec.title }),
+    )
     const [from, to] = bodyRange(sec.lines)
     let i = from
     while (i < to && sec.lines[i].trim() === "") i++
     for (; i < to; i++) {
       const raw = sec.lines[i]
-      const line = el("div", { className: raw.trim() === "" ? "line gap" : "line" })
-      line.dataset.s = s
-      line.dataset.i = i
-      tokenize(raw).forEach((t, k) => {
-        if (t.type === "text") line.append(el("span", { className: "t", textContent: t.raw, dataset: { k } }))
-        else if (t.type === "esc") line.append(el("span", { className: "e", textContent: t.display }))
-        else if (t.type === "link") {
-          const nav = isPoemPage(t.target)
-          const missing = !nav && !refsBySlug.has(t.target)
-          const span = el("span", {
-            className: `lk${nav ? " nav" : ""}${missing ? " missing" : ""}${current?.slug === t.target ? " current" : ""}`,
-            textContent: t.display,
-            title: nav ? `Link to ${t.target}` : missing ? `No reference file “${t.target}” yet` : refsBySlug.get(t.target).title,
-          })
-          span.dataset.k = k
-          span.dataset.target = t.target
-          if (!nav) span.addEventListener("click", (e) => openLinkPicker(e, span))
-          line.append(span)
-        }
-      })
-      root.append(line)
+      root.append(renderLine(sec, s, i, "div", raw.trim() === "" ? "line gap" : "line"))
     }
   })
 }
@@ -182,8 +209,8 @@ document.addEventListener("mouseup", (e) => {
 async function writeLine(s, i, transform) {
   const sec = state.sections[s]
   const expected = sec.lines[i]
-  const tokens = tokenize(expected)
-  const line = transform(tokens)
+  const { text, wrap } = lineText(sec, i)
+  const line = wrap(transform(tokenize(text)))
   try {
     await call("POST", "/api/poem-line", { file: sec.file, index: i, expected, line })
     return true

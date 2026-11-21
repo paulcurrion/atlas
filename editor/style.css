@@ -434,3 +434,11 @@ dialog pre {
   gap: 8px;
   margin-top: 16px;
 }
+/* section titles are linkable lines too */
+.poem h2.line {
+  margin: 48px -6px 16px;
+  white-space: normal;
+}
+.poem h2.line:first-child {
+  margin-top: 0;
+}

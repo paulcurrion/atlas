@@ -94,6 +94,29 @@ function explain(output, timedOut) {
 const plain = (line) =>
   line.replace(/\[\[[^\]|]*\|([^\]]*)\]\]/g, "$1").replace(/\[\[([^\]]*)\]\]/g, "$1")
 
+// A section's title line ("title: ..."), which may be quoted, and may contain links.
+const TITLE = /^title:\s*(.*)$/
+function unquote(v) {
+  v = v.trim()
+  if (v.startsWith('"') && v.endsWith('"'))
+    try {
+      return JSON.parse(v)
+    } catch {
+      return v.slice(1, -1)
+    }
+  if (v.startsWith("'") && v.endsWith("'")) return v.slice(1, -1).replace(/''/g, "'")
+  return v
+}
+const titleText = (line) => unquote(line.match(TITLE)?.[1] ?? "")
+
+// which line of a section file holds its title (inside the frontmatter), or -1
+function titleLineIndex(lines) {
+  if (lines[0] !== "---") return -1
+  const end = lines.indexOf("---", 1)
+  const i = lines.findIndex((l, n) => n > 0 && n < end && TITLE.test(l))
+  return i
+}
+
 function refToFile({ title, tags, body, extra }) {
   const data = { ...(extra ?? {}), title }
   const cleanTags = (tags ?? []).map((t) => String(t).trim()).filter(Boolean)
@@ -108,8 +131,10 @@ async function loadState() {
   const sections = []
   for (const file of await mdFiles(POEM)) {
     const raw = await fs.readFile(path.join(POEM, file), "utf8")
-    const { data } = matter(raw)
-    sections.push({ file, title: data.title ?? file, lines: raw.split("\n") })
+    const lines = raw.split("\n")
+    const titleLine = titleLineIndex(lines)
+    const title = titleLine === -1 ? file : plain(titleText(lines[titleLine]))
+    sections.push({ file, title, titleLine, lines })
   }
 
   const refs = []
@@ -192,7 +217,9 @@ async function api(req, res, url) {
     const lines = (await fs.readFile(full, "utf8")).split("\n")
     if (lines[index] !== expected)
       return json(res, 409, { error: "That line changed on disk. The editor has reloaded it; try again." })
-    if (line.includes("\n") || plain(line) !== plain(expected))
+    const isTitle = index === titleLineIndex(lines)
+    const words = (l) => (isTitle ? (TITLE.test(l) ? plain(titleText(l)) : null) : plain(l))
+    if (line.includes("\n") || words(line) === null || words(line) !== words(expected))
       return json(res, 400, { error: "Only links can be changed here, not the words of the poem." })
     lines[index] = line
     await fs.writeFile(full, lines.join("\n"))

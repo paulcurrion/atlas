@@ -1,5 +1,5 @@
 ---
-title: Second. In Haunted Houses
+title: "Second. [[pliny-haunted-house|In Haunted Houses]]"
 ---
 
 Finally a place for haints to call home:

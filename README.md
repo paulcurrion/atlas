@@ -29,6 +29,17 @@ The part before `|` is the reference page’s filename; the part after is the te
 shows in the poem. A link cannot span two lines. If a phrase runs over a line break,
 link each line separately to the same reference.
 
+### Links in section titles
+
+A section's title can link to references too, written the same way, in quotes:
+
+```markdown
+title: "Fifth. [[harpocrates|Harpocrates]]"
+```
+
+The section page shows the linked title; the menu, graph and browser tab show the
+plain text. In the editor, titles can be linked like any other line.
+
 ### Stanza anchors
 
 Every stanza ends with a block anchor such as `^first-3`. These let reference pages link

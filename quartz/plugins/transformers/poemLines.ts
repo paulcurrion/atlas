@@ -46,7 +46,8 @@ export const PoemLines: QuartzTransformerPlugin<Partial<Options>> = (userOpts) =
           if (!file.data.slug?.startsWith(opts.poemPrefix)) return
 
           visit(tree, "element", (p: Element) => {
-            if (p.tagName !== "p") return
+            const isTitle = p.tagName === "h1" && String(p.properties?.className ?? "").includes("section-title")
+            if (p.tagName !== "p" && !isTitle) return
             const block = typeof p.properties?.id === "string" ? p.properties.id : undefined
 
             // split the stanza into lines at <br>

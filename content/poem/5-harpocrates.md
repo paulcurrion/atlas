@@ -1,5 +1,5 @@
 ---
-title: Fifth. Harpocrates
+title: "Fifth. [[harpocrates|Harpocrates]]"
 ---
 
 Whether the predator pulling us down

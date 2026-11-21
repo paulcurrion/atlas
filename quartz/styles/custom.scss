@@ -100,11 +100,30 @@ body[data-slug="index"] .transclude {
   margin: 0;
 
   .transclude-src,
-  > h1,
+  > h1:not(.section-title), // the plain title Quartz adds; the linked one stays
   hr,
   hr ~ p {
     display: none;
   }
+}
+
+// Section titles (they can contain links, see titleLinks.ts)
+h1.section-title {
+  // no "link to this heading" icon on section titles
+  a[role="anchor"] {
+    display: none;
+  }
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin: 2rem 0 1.5rem;
+  line-height: 1.25;
+}
+body[data-slug="index"] h1.section-title {
+  font-size: 1.6rem;
+  margin-top: 4rem;
+}
+body[data-slug="index"] article p:first-of-type {
+  margin-bottom: 0;
 }
 
 // ── Reference pages ─────────────────────────────────────────────────────────
