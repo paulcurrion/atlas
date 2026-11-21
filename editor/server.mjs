@@ -12,6 +12,7 @@ import fs from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { spawn, execFile } from "node:child_process"
+import { readFileSync, unlinkSync } from "node:fs"
 import matter from "gray-matter"
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
@@ -316,42 +317,117 @@ const server = http.createServer(async (req, res) => {
   }
 })
 
-server.on("error", (e) => {
-  if (e.code === "EADDRINUSE") {
-    console.error(`
-  The editor is already running (something is using port ${PORT}).
-  Use the one that’s open at http://localhost:${PORT}, or stop it first:
+// ── starting and stopping ────────────────────────────────────────────────────
+//
+// The editor records its process number in editor/.editor.pid. If an earlier copy is
+// still running (closed window, Ctrl+Z, a crash), starting a new one stops the old one
+// and takes over, so you never have to hunt for leftover processes.
 
-    pkill -f editor/server.mjs
-    pkill -f "quartz build --serve"
-
-  then run  npm run editor  again.
-`)
-    process.exit(1)
+const PID_FILE = path.join(EDITOR, ".editor.pid")
+const alive = (pid) => {
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch {
+    return false
   }
-  throw e
-})
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
-server.listen(PORT, "127.0.0.1", () => {
-  console.log(`\n  Atlas editor:  http://localhost:${PORT}`)
-})
+async function stopEarlierCopy() {
+  let info
+  try {
+    info = JSON.parse(await fs.readFile(PID_FILE, "utf8"))
+  } catch {
+    return
+  }
+  const signal = (target, sig) => {
+    try {
+      process.kill(target, sig)
+    } catch {}
+  }
+  // a preview left behind (even if its editor has gone): stop its whole group
+  if (info?.previewGroup) {
+    signal(-info.previewGroup, "SIGCONT")
+    signal(-info.previewGroup, "SIGTERM")
+  }
+  if (info?.pid && info.pid !== process.pid && alive(info.pid)) {
+    console.log(`  Stopping the editor that was already running (process ${info.pid})…`)
+    signal(info.pid, "SIGCONT") // in case it was paused with Ctrl+Z
+    signal(info.pid, "SIGTERM")
+    for (let i = 0; i < 20 && alive(info.pid); i++) await sleep(150)
+    if (alive(info.pid)) signal(info.pid, "SIGKILL")
+  }
+  if (info?.previewGroup) {
+    await sleep(500)
+    signal(-info.previewGroup, "SIGKILL")
+  }
+  await sleep(200)
+}
 
 let preview
-if (!process.argv.includes("--no-preview")) {
-  preview = spawn("npx", ["quartz", "build", "--serve"], { cwd: ROOT, stdio: ["ignore", "pipe", "pipe"] })
+function shutdown() {
+  // the preview runs in its own process group: stop the whole group, not just npx
+  if (preview?.pid)
+    try {
+      process.kill(-preview.pid, "SIGTERM")
+    } catch {}
+  try {
+    const info = JSON.parse(readFileSync(PID_FILE, "utf8"))
+    if (info.pid === process.pid) unlinkSync(PID_FILE)
+  } catch {}
+}
+
+function startPreview() {
+  if (process.argv.includes("--no-preview")) return
+  preview = spawn("npx", ["quartz", "build", "--serve"], {
+    cwd: ROOT,
+    stdio: ["ignore", "pipe", "pipe"],
+    detached: true, // own process group, so it can be stopped as a whole
+  })
   let announced = false
   const watch = (chunk) => {
-    if (!announced && /listening at/.test(String(chunk))) {
+    const text = String(chunk)
+    if (!announced && /listening at/.test(text)) {
       announced = true
       console.log("  Site preview:  http://localhost:8080  (rebuilds whenever you save)\n")
+    }
+    if (/EADDRINUSE/.test(text) && !announced) {
+      announced = true
+      console.log("  (Site preview not started: port 8080 is in use, probably a preview left over")
+      console.log("   from before. Stop it with:  pkill -f \"quartz build --serve\"  and restart.)\n")
     }
   }
   preview.stdout.on("data", watch)
   preview.stderr.on("data", watch)
 }
 
-for (const sig of ["SIGINT", "SIGTERM"])
+function listen() {
+  server.once("error", (e) => {
+    if (e.code === "EADDRINUSE") {
+      console.error(`
+  Something else is using port ${PORT}, and it isn’t an editor this one can stop.
+  Find it with:   ss -ltnp | grep ':${PORT}'
+  and stop it with  kill <the number after pid=>,  or run the editor on another port:
+
+    EDITOR_PORT=4001 npm run editor
+`)
+      process.exit(1)
+    }
+    throw e
+  })
+  server.listen(PORT, "127.0.0.1", async () => {
+    console.log(`\n  Atlas editor:  http://localhost:${PORT}   (Ctrl+C to stop)`)
+    startPreview()
+    await fs.writeFile(PID_FILE, JSON.stringify({ pid: process.pid, previewGroup: preview?.pid ?? null }))
+  })
+}
+
+for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"])
   process.on(sig, () => {
-    preview?.kill()
+    shutdown()
     process.exit(0)
   })
+process.on("exit", shutdown)
+
+stopEarlierCopy().then(listen)
