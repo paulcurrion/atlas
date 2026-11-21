@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atlas editor</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>An Atlas of Haunted Houses <span>editor</span></h1>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <a class="button ghost" href="http://localhost:8080" target="_blank" rel="noopener">Preview site ↗</a>
+      <button class="button" id="publish-open">Publish…</button>
+    </header>
+
+    <main class="layout">
+      <!-- left: references and to-do -->
+      <aside class="sidebar">
+        <div class="tabs" role="tablist">
+          <button role="tab" class="tab active" data-tab="refs">References <span id="count-refs"></span></button>
+          <button role="tab" class="tab" data-tab="todo">To-do <span id="count-todo"></span></button>
+        </div>
+        <input type="search" id="filter" placeholder="Filter…" aria-label="Filter the list" />
+        <label class="check" id="unlinked-toggle"><input type="checkbox" id="only-unlinked" /> Only references not linked from the poem</label>
+        <label class="check hidden" id="done-toggle"><input type="checkbox" id="hide-done" checked /> Hide references already created</label>
+        <button class="button small" id="new-ref">＋ New reference</button>
+        <ul class="list" id="list"></ul>
+      </aside>
+
+      <!-- middle: the poem -->
+      <section class="poem" id="poem" aria-label="The poem">
+        <p class="hint">Select words in a line to link them to a reference. Click a highlighted phrase to edit, change or remove its link.</p>
+        <div id="sections"></div>
+      </section>
+
+      <!-- right: reference editor -->
+      <section class="editor" id="editor" aria-label="Reference editor"></section>
+    </main>
+
+    <!-- link picker (appears next to a selection or a clicked link) -->
+    <div class="popover hidden" id="picker" role="dialog" aria-label="Link to a reference">
+      <div class="picker-head" id="picker-head"></div>
+      <div class="picker-actions" id="picker-actions"></div>
+      <input type="search" id="picker-search" placeholder="Search references…" aria-label="Search references" />
+      <ul class="list compact" id="picker-list"></ul>
+    </div>
+
+    <!-- publish dialog -->
+    <dialog id="publish">
+      <h2>Publish changes</h2>
+      <p>These files have changed since your last publish:</p>
+      <ul id="changes"></ul>
+      <label>Describe the change (optional)<input id="publish-message" placeholder="Add references for Section Two" /></label>
+      <pre id="publish-output" class="hidden"></pre>
+      <div class="dialog-buttons">
+        <button class="button ghost" id="publish-cancel">Close</button>
+        <button class="button" id="publish-go">Commit and push</button>
+      </div>
+    </dialog>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
