@@ -9,17 +9,17 @@ Server racks serving up endless
 Conversations between ghosts,
 None of whom know they’re dead.
 Lucid mediocrity is their lyrical height(s),
-Riding the ones and twos like lifelines
+Riding [[ones-and-twos|the ones and twos]] like lifelines
 For the unalive, live broadcasts
 For (from) the cemetery. [[macbeth-dagger|Hear it not.]] ^second-1
 
 These chop shops are dark and lonely places
 Where ghosts thrive, unmoored from real lives,
 Set free from those ties which kept them at
-Crossroads where deals are made - and now
+[[crossroads-deal|Crossroads where deals are made]] - and now
 Everywhere is a crossroads, deal or no deal,
-A prediction market come late to the game,
-Or a logic gate, compressing ones and twos to
+[[prediction-markets|A prediction market]] come late to the game,
+Or [[logic-gate|a logic gate]], compressing ones and twos to
 Zeros and ones, the language of ghosts
 Until just last year, ^second-2
 

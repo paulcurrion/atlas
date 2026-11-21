@@ -26,18 +26,18 @@ Our attempt to avoid answering their question:
 What am I?
 Whoever names me, breaks me. ^fifth-2
 
-Thousand-eyed angel, let us eat and drink
+[[angel-of-death|Thousand-eyed angel]], let us eat and drink
 In perfect silence. In your walled garden,
 We may touch grass, while the walls
-Keep out the qlippoth, the vanishing twin,
+Keep out [[qlippoth|the qlippoth]], [[vanishing-twin|the vanishing twin,]]
 Fetus papyraceus, parched and paperthin,
 Haints hidden, occluded, occult.
 Hello? I’m calling to schedule an exorcism,
 Tender scientists out there bare-knuckling
-Few-shot learners into finally accepting
-Some version of the noble eightfold path,
-Or naming phronesis as their cardinal (virtue),
-Anything to overthrow this reign of quantity. ^fifth-3
+[[few-shot-learners|Few-shot learners]] into finally accepting
+Some version of [[noble-eightfold-path|the noble eightfold path]],
+Or naming [[phronesis|phronesis]] as their cardinal (virtue),
+Anything to overthrow [[reign-of-quantity|this reign of quantity]]. ^fifth-3
 
 So let us play a profound melody
 For those that can hear above the noise.
