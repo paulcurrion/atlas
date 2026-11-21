@@ -39,15 +39,15 @@ Some version of [[noble-eightfold-path|the noble eightfold path]],
 Or elevating [[phronesis|phronesis]] as their cardinal,
 Anything to overthrow [[reign-of-quantity|this reign of quantity]]. ^fifth-3
 
-So let us play a profound melody
+So let us play a [[profound-melody|profound melody]]
 For those that can hear above the noise.
-Let us be the mutes who do not speak,
+Let us be the [[mutes-who-do-not-speak|mutes who do not speak]],
 Despite our multitude of words.
-Let us recognise the limitation of the map,
+Let us recognise [[map-and-territory|the limitation of the map]],
 The semantic disturbance in the organism.
 Let us end the world even though
 It is nothing more than the end of an illusion.
-Let us build our own wall of silence defending
+Let us build our own [[wall-of-silence|wall of silence]] defending
 The city of our minds against enemy spears.
 Let us hope that declaiming these words of the dead
 Might be a way of reclaiming them from these ghosts. ^fifth-4
