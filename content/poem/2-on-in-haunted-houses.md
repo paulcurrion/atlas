@@ -1,5 +1,5 @@
 ---
-title: Second. On (In) Haunted Houses
+title: Second. In Haunted Houses
 ---
 
 Finally a place for haints to call home:
@@ -8,10 +8,10 @@ Aisles empty of [[fulfilment-associates|fulfilment associates]],
 Server racks serving up endless
 Conversations between ghosts,
 None of whom know they’re dead.
-Lucid mediocrity is their lyrical height(s),
+Lucid mediocrity is their lyrical height,
 Riding [[ones-and-twos|the ones and twos]] like lifelines
 For the unalive, live broadcasts
-For (from) the cemetery. [[macbeth-dagger|Hear it not.]] ^second-1
+From the cemetery. [[macbeth-dagger|Hear it not.]] ^second-1
 
 These chop shops are dark and lonely places
 Where ghosts thrive, unmoored from real lives,
@@ -35,7 +35,7 @@ They paid top dollar just to be cool. ^second-3
 
 None of us know we’re dead. We stumble
 Through the cemetery towards the house
-Like the first ones to die in the (a) horror movie.
+Like the first ones to die in a horror movie.
 Surrounded by voices that might not be real,
 And at the end does it matter? The voice
 On the other end of the line sounds the same,
