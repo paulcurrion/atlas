@@ -1,5 +1,5 @@
 ---
-title: First. Haint Blue
+title: "First. [[haint-blue|Haint Blue]]"
 ---
 
 [[macbeth-dagger|Is this a ghost which I see before me]],

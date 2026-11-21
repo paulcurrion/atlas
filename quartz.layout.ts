@@ -42,7 +42,11 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.PoemNav(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ArticleTitle(),
+    Component.ConditionalRender({
+      component: Component.ArticleTitle(),
+      // section pages show their own title, with any links in it (see titleLinks.ts)
+      condition: (page) => !(page.fileData.slug?.startsWith("poem/") && page.fileData.slug !== "poem/index"),
+    }),
     Component.InThePoem(),
     Component.ConditionalRender({
       component: Component.TagList(),
