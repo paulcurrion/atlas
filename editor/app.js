@@ -683,9 +683,12 @@ $("#publish-open").addEventListener("click", async () => {
   list.replaceChildren(el("li", { textContent: "Checking…" }))
   dialog.showModal()
   try {
-    const { changes } = await call("GET", "/api/changes")
-    list.replaceChildren(...(changes.length ? changes.map((c) => el("li", { textContent: c })) : [el("li", { textContent: "Nothing has changed." })]))
-    $("#publish-go").disabled = !changes.length
+    const { changes, unpushed } = await call("GET", "/api/changes")
+    const items = changes.map((c) => el("li", { textContent: c }))
+    if (unpushed)
+      items.push(el("li", { textContent: `${unpushed} saved change${unpushed > 1 ? "s" : ""} not yet sent to GitHub` }))
+    list.replaceChildren(...(items.length ? items : [el("li", { textContent: "Nothing has changed." })]))
+    $("#publish-go").disabled = !items.length
   } catch (e) {
     list.replaceChildren(el("li", { textContent: e.message }))
   }
@@ -699,10 +702,12 @@ $("#publish-go").addEventListener("click", async () => {
   out.textContent = "Publishing…"
   try {
     const r = await call("POST", "/api/publish", { message: $("#publish-message").value })
-    out.textContent = r.output + "Done. The site will update in a minute or two."
+    out.textContent = "Published. The site will update in a minute or two.\n\n" + r.output
     $("#publish-message").value = ""
+    await reload() // pick up anything that came down from GitHub
   } catch (e) {
-    out.textContent = (e.data?.output ?? "") + e.message
+    // the explanation first, git's own output underneath for reference
+    out.textContent = e.message + (e.data?.output ? "\n\n──── details ────\n" + e.data.output : "")
     go.disabled = false
   }
 })

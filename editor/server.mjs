@@ -51,12 +51,43 @@ const readBody = (req) =>
     })
   })
 
+// Git must never stop to ask a question: the editor has no way to answer it, so a
+// login prompt would leave Publish hanging. With prompts off, git fails at once
+// and the editor explains what to do.
+const GIT_ENV = { ...process.env, GIT_TERMINAL_PROMPT: "0", GCM_INTERACTIVE: "never", GIT_ASKPASS: "", SSH_ASKPASS: "" }
+
 const run = (cmd, args) =>
-  new Promise((resolve) =>
-    execFile(cmd, args, { cwd: ROOT }, (err, stdout, stderr) =>
-      resolve({ ok: !err, output: (stdout + stderr).trim() }),
-    ),
-  )
+  new Promise((resolve) => {
+    const child = execFile(
+      cmd,
+      args,
+      { cwd: ROOT, env: GIT_ENV, timeout: 120_000 },
+      (err, stdout, stderr) =>
+        resolve({ ok: !err, timedOut: !!err?.killed, output: (stdout + stderr).trim() }),
+    )
+    child.stdin?.end()
+  })
+
+const SIGN_IN_HELP = `GitHub needs you to sign in before the editor can publish.
+
+In a terminal, run these two commands (once only):
+
+  sudo apt install gh
+  gh auth login
+
+Choose GitHub.com, then HTTPS, answer Yes to "Authenticate Git with your GitHub
+credentials", and pick "Login with a web browser". Then click Publish again.
+Your changes are saved and committed; nothing is lost.`
+
+// Turn git's messages into plain instructions.
+function explain(output, timedOut) {
+  if (timedOut) return "GitHub didn’t answer within two minutes. Check your internet connection and click Publish again."
+  if (/could not read (Username|Password)|terminal prompts disabled|Authentication failed|Permission denied \(publickey\)|403/i.test(output))
+    return SIGN_IN_HELP
+  if (/Could not resolve host|unable to access|Connection timed out|Failed to connect/i.test(output))
+    return "Couldn’t reach GitHub. Check your internet connection and click Publish again. Your changes are committed and will go up next time."
+  return null
+}
 
 // The poem text with link markup removed: used to make sure an edit to a line
 // only ever adds, changes or removes links, never the words of the poem.
@@ -201,23 +232,60 @@ async function api(req, res, url) {
   // Publishing: show what changed, then commit and push.
   if (route === "GET /api/changes") {
     const r = await run("git", ["status", "--porcelain", "--", "content", "REFERENCES.md"])
-    return json(res, 200, { ok: r.ok, changes: r.output ? r.output.split("\n") : [], output: r.output })
+    // commits made here but not yet sent to GitHub (e.g. after a failed publish)
+    const ahead = await run("git", ["rev-list", "--count", "@{upstream}..HEAD"])
+    const unpushed = ahead.ok ? Number(ahead.output) || 0 : 0
+    return json(res, 200, { ok: r.ok, changes: r.output ? r.output.split("\n") : [], unpushed, output: r.output })
   }
   if (route === "POST /api/publish") {
     const { message } = await readBody(req)
     const msg = String(message ?? "").trim() || "Update the atlas"
-    const steps = [
-      ["git", ["add", "--", "content", "REFERENCES.md"]],
-      // only ever commits the content, even if other files happen to be staged
-      ["git", ["commit", "-m", msg, "--", "content", "REFERENCES.md"]],
-      ["git", ["push"]],
-    ]
     let log = ""
-    for (const [cmd, args] of steps) {
-      const r = await run(cmd, args)
-      log += `$ ${cmd} ${args.join(" ")}\n${r.output}\n\n`
-      if (!r.ok) return json(res, 500, { error: "Publishing stopped at this step.", output: log })
+    const step = async (args) => {
+      const r = await run("git", args)
+      log += `$ git ${args.join(" ")}\n${r.output}\n\n`
+      return r
     }
+    const fail = (error) => json(res, 500, { error, output: log })
+
+    // 1. git needs to know who is committing
+    const name = await run("git", ["config", "user.name"])
+    const email = await run("git", ["config", "user.email"])
+    if (!name.output || !email.output)
+      return fail(`Git doesn’t know who you are yet, so it can’t sign the commit.
+
+In a terminal, run (once only, with your own name and email):
+
+  git config --global user.name "Your Name"
+  git config --global user.email "you@example.com"
+
+Then click Publish again.`)
+
+    // 2. commit the content (if there is anything new)
+    let r = await step(["add", "--", "content", "REFERENCES.md"])
+    if (!r.ok) return fail("Couldn’t prepare the changes.")
+    const staged = await run("git", ["diff", "--cached", "--quiet", "--", "content", "REFERENCES.md"])
+    if (!staged.ok) {
+      // only ever commits the content, even if other files happen to be staged
+      r = await step(["commit", "-m", msg, "--", "content", "REFERENCES.md"])
+      if (!r.ok) return fail("Couldn’t commit the changes.")
+    }
+
+    // 3. bring in anything published from elsewhere (GitHub, another computer)
+    r = await step(["pull", "--rebase", "--autostash"])
+    if (!r.ok) {
+      if (/CONFLICT|could not apply|Resolve all conflicts/i.test(r.output)) {
+        await step(["rebase", "--abort"])
+        return fail(`The same file was changed both here and on GitHub, so the two versions need
+combining by hand. Nothing has been lost: your changes are committed on this
+computer. Ask for help with "a rebase conflict" and mention the file named above.`)
+      }
+      return fail(explain(r.output, r.timedOut) ?? "Couldn’t download the latest version from GitHub.")
+    }
+
+    // 4. send it up
+    r = await step(["push"])
+    if (!r.ok) return fail(explain(r.output, r.timedOut) ?? "Couldn’t send the changes to GitHub.")
     return json(res, 200, { ok: true, output: log })
   }
 
@@ -246,6 +314,22 @@ const server = http.createServer(async (req, res) => {
   } catch (e) {
     json(res, 500, { error: String(e?.message ?? e) })
   }
+})
+
+server.on("error", (e) => {
+  if (e.code === "EADDRINUSE") {
+    console.error(`
+  The editor is already running (something is using port ${PORT}).
+  Use the one that’s open at http://localhost:${PORT}, or stop it first:
+
+    pkill -f editor/server.mjs
+    pkill -f "quartz build --serve"
+
+  then run  npm run editor  again.
+`)
+    process.exit(1)
+  }
+  throw e
 })
 
 server.listen(PORT, "127.0.0.1", () => {
