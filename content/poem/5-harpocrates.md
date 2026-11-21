@@ -23,7 +23,7 @@ Refusing to speak, the silence which protects
 Since all haints can do is speak of everything,
 While we saints and sinners speak of nothing -
 Our attempt to avoid answering their question:
-What am I?
+[[riddle-of-silence|What am I?]]
 Whoever names me, breaks me. ^fifth-2
 
 [[angel-of-death|Thousand-eyed angel]], let us eat and drink

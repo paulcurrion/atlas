@@ -15,9 +15,9 @@ The gift of greatest wishfulness is to forget.
 Without forgetting, living becomes impossible,
 An unwilled wave of memories, unbearable,
 Tsunami bringing the coastline to wrack and ruin.
-Whoever is blinded from remembrance of the most,
+[[quran-43-36|Whoever is blinded from remembrance of the most,]]
 We appoint for him a devil as companion,
-A sure-footed spring-heeled whisperer in ears,
+A sure-footed [[spring-heeled-jack|spring-heeled whisperer]] in ears,
 False memories guised as fake news,
 Hallucinations masked as holy writ. ^fourth-2
 

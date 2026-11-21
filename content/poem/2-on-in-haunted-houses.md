@@ -23,7 +23,7 @@ Or [[logic-gate|a logic gate]], compressing ones and twos to
 Zeros and ones, the language of ghosts
 Until just last year, ^second-2
 
-when they broke open
+[[training-data|when they broke open]]
 Dictionaries and thesauruses and encyclopedias
 Cracking their spines and sucking their marrow
 Dry dry dry dry dry as the land that lies

@@ -6,7 +6,7 @@ An atlas of haunted houses!
 That’s what the people are crying out for
 “Let my people go - to the theme park”
 Without a hint of the irony that would make
-Life in this uncanny valley halfway bearable
+Life in this [[uncanny-valley|uncanny valley]] halfway bearable
 It’s not a lifestyle we can quite afford
 To buy our way out from under
 The shadow of dark satanic content mills.
@@ -32,7 +32,7 @@ Attention, stripmined from society,
 Hauled back to the imperial capital.
 Used to build yet more haunted houses.
 Of [[exit-voice-and-loyalty|exit, voice or loyalty]], you choose exit
-Only to end up in the bush of ghosts. ^third-3
+Only to end up in [[bush-of-ghosts|the bush of ghosts]]. ^third-3
 
 Once there was another empire upon
 Which the sun never set; now we regret
@@ -42,8 +42,8 @@ Breaking News, the empire is striking itself,
 An awful mortal auto defenestration,
 A hegemon hegemon-ing itself? Surely no.
 The companies simply won’t allow it.
-In the end attention is all they need.
-Let them enjoy their imperial phase,
+In the end [[attention-is-all-you-need|attention is all they need]].
+Let them enjoy [[imperial-phase|their imperial phase]],
 Even if [[emperors-new-clothes|their new clothes]] are unable
 To conceal their thrusting ambitions,
 Their self-serving admonitions
