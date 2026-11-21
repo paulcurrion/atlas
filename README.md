@@ -120,6 +120,8 @@ One-time setup:
 |---|---|
 | `quartz/plugins/transformers/poemLines.ts` | Records, for every link in the poem, the line and stanza it sits in |
 | `quartz/components/InThePoem.tsx` | The “In the poem” card on reference pages |
+| `quartz/components/Sections.tsx` | The left-hand menu: the six sections of the poem |
+| `quartz/components/ReferencePanel.tsx` + `scripts/referencepanel.inline.ts` | On poem pages, references open in the right column under the graph (a sheet from the bottom on phones) instead of replacing the poem |
 | `quartz/components/PoemNav.tsx` + `scripts/poemnav.inline.ts` | “Return to the poem” (back to the exact stanza) and the reader’s trail |
 | `quartz/styles/custom.scss` | Black space, haint-blue links, verse typography, mobile tweaks |
 | `quartz.config.ts`, `quartz.layout.ts` | Site settings and page layout |
