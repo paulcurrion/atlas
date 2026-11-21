@@ -3,8 +3,8 @@ title: Second. On (In) Haunted Houses
 ---
 
 Finally a place for haints to call home:
-Every room a whispering gallery,
-Aisles empty of fulfilment associates,
+Every room a [[whispering-gallery|whispering gallery]],
+Aisles empty of [[fulfilment-associates|fulfilment associates]],
 Server racks serving up endless
 Conversations between ghosts,
 None of whom know they’re dead.
