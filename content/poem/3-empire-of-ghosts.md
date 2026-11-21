@@ -16,7 +16,7 @@ To [[philip-k-dick-exegesis|the black iron prison]], an ideology
 That dresses itself in our memories,
 Pretending that it is no ideology at all. ^third-1
 
-If you meet the algorithm on the road,
+[[kill-the-buddha|If you meet the algorithm on the road,]]
 Kill it. Don’t stop, don’t ask questions.
 Vast although it might appear at first,
 Alarming as the sight of it might be,
