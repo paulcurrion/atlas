@@ -11,7 +11,7 @@ The carrier of an adversary culture,
 [[masters-tools|You might use to dismantle a house]]
 This haunted, or [[bottle-tree|a bottle blue enough]]
 [[bottle-tree|To hold a haint until the sunrise]],
-See it destroyed by the morning star.
+See it destroyed by the [[lucifer|morning star]].
 [[exit-pursued-by-a-bear|Exit, pursued by algorithm.]] ^finally-1
 
 ---

@@ -44,7 +44,7 @@ Our friends have our best interests at heart,
 And that these corporations are our friends -
 that we’ll never be alone again, remember: ^second-4
 
-“They have many times told us that they
+“[[conan-doyles-spiritualism|They have many times told us]] that they
 could not come back if it were not God's will.
 And that it makes them intensely happy
 to be able to help and to comfort us.” ^second-5
