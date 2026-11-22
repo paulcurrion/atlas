@@ -37,7 +37,7 @@ None of us know we’re dead. We stumble
 Through the cemetery towards the house
 Like the first ones to die in a horror movie.
 Surrounded by voices that might not be real,
-And at the end does it matter? The voice
+And at the end does it matter? [[voice-cloning|The voice]]
 On the other end of the line sounds the same,
 Haint or no. We chat like children, satisfied
 Our friends have our best interests at heart,

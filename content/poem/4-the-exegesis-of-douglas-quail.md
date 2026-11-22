@@ -11,7 +11,7 @@ In fiction in all the times there ever were
 Reduced to a single story, told by torchlight
 In the attic of a haunted house. ^fourth-1
 
-The gift of greatest wishfulness is to forget.
+[[nietzsche-forgetting|The gift of greatest wishfulness is to forget.]]
 Without forgetting, living becomes impossible,
 An unwilled wave of memories, unbearable,
 Tsunami bringing the coastline to wrack and ruin.
