@@ -126,6 +126,62 @@ body[data-slug="index"] article p:first-of-type {
   margin-bottom: 0;
 }
 
+// ── Sources: links out of the atlas ─────────────────────────────────────────
+// Poem links are haint blue and stay on the page; links in a reference to an
+// outside source are red and open in a new tab.
+
+:root {
+  --source: #e8796b;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.reference-panel .ref-body,
+body[data-slug^="refs/"] article {
+  a.external {
+    color: var(--source);
+    background: none;
+    padding: 0;
+    font-weight: normal;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232, 121, 107, 0.45);
+
+    &:hover {
+      border-bottom-color: var(--source);
+      text-shadow: 0 0 10px rgba(232, 121, 107, 0.5);
+    }
+
+    .external-icon {
+      fill: var(--source);
+      margin-left: 0.2em;
+    }
+  }
+
+  // the "Sources" heading in a reference
+  h2#sources {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: normal;
+    margin: 1.5rem 0 0.4rem;
+  }
+  h2#sources + ul {
+    padding-left: 0;
+    list-style: none;
+  }
+  h2#sources a[role="anchor"] {
+    display: none;
+  }
+}
+
 // ── Reference pages ─────────────────────────────────────────────────────────
 
 body[data-slug^="refs/"] article {

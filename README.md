@@ -64,6 +64,18 @@ Your expansion…
 See also: [[hamsa|Hamsa]]
 ```
 
+Each reference can end with one outside source, as a full citation and a link:
+
+```markdown
+## Sources
+
+- Ngũgĩ wa Thiong’o, *Decolonising the Mind* (James Currey, 1986), p. 9. [Source](https://…)
+```
+
+Source links are red and open in a new tab, so the poem stays where it was. Links
+in the poem itself are haint blue and stay on the page. In the editor, use the
+**Source** fields under the text instead of writing this by hand.
+
 The **“In the poem”** card at the top of each reference page is generated automatically
 from the links in the poem, so you never have to write it yourself. Links between
 references (“See also”) are what turn the graph from a star into an archipelago.

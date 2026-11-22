@@ -8,6 +8,14 @@ const parser = new DOMParser()
 let trigger: HTMLElement | null = null
 let request = 0
 
+// Tell screen readers that links to outside sources open in a new tab.
+function labelNewTabLinks(root: ParentNode) {
+  root.querySelectorAll<HTMLAnchorElement>('a.external[target="_blank"]').forEach((a) => {
+    if (a.querySelector(".sr-only")) return
+    a.append(Object.assign(document.createElement("span"), { className: "sr-only", textContent: " (opens in a new tab)" }))
+  })
+}
+
 const panel = () => document.querySelector<HTMLElement>(".reference-panel")
 
 function isPoemPage() {
@@ -103,6 +111,7 @@ async function open(link: HTMLAnchorElement) {
   })
   parts.push(full)
 
+  labelNewTabLinks(body)
   el.replaceChildren(...parts)
   el.classList.remove("empty", "loading")
   el.scrollTop = 0
@@ -161,4 +170,5 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("nav", () => {
   trigger = null
   request++
+  labelNewTabLinks(document.body)
 })

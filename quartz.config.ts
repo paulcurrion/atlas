@@ -71,7 +71,8 @@ const config: QuartzConfig = {
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.HardLineBreaks(),
-      Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      // links to outside sources open in a new tab, so the poem stays where it was
+      Plugin.CrawlLinks({ markdownLinkResolution: "shortest", openLinksInNewTab: true }),
       Plugin.PoemLines(),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
