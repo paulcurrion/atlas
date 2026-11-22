@@ -40,8 +40,8 @@ To inform you that the empire is racist,
 [[the-empire-strikes-back|The empire is striking back]] - no, wait!
 Breaking News, the empire is striking itself,
 An awful mortal [[defenestration|auto defenestration]],
-A hegemon hegemon-ing itself? Surely no.
-The companies simply won’t allow it.
+Hegemon hellbent on hegemonising itself? Surely no.
+Surely the companies simply won’t allow it.
 In the end [[attention-is-all-you-need|attention is all they need]].
 Let them enjoy [[imperial-phase|their imperial phase]],
 Even if [[emperors-new-clothes|their new clothes]] are unable
