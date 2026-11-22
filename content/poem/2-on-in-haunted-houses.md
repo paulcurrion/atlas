@@ -27,7 +27,7 @@ Until just last year, ^second-2
 Dictionaries and thesauruses and encyclopedias
 Cracking their spines and sucking their marrow
 Dry dry dry dry dry as the land that lies
-Beneath the haunted house, the water table
+Beneath the haunted house, [[data-centre-water|the water table]]
 Drop drop dropping to keep them cool,
 And they must stay cool if only because
 Corporations tell us so. They would know,

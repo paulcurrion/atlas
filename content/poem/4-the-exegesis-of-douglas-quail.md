@@ -39,7 +39,7 @@ Or the train of thought you choose to let go of.
 Are you [[total-recall|Quail, or Quaid, or Hauser]]? Do you care?
 You dare not look too close at your own biography
 In case it comes back to bite you on the ass.
-The library of babel now holds but a single book
+[[library-of-babel|The library of babel]] now holds but a single book
 That has consumed all the books there ever were,
 A predator composed of words alone,
 Able to explain everything but itself. ^fourth-4

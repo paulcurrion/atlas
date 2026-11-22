@@ -13,7 +13,7 @@ When they are already on my back. ^fifth-1
 
 A word to the wise is worth nothing now,
 Not when words pour out like an oil slick.
-My soul is the attack surface, and so
+My soul is the [[attack-surface|attack surface]], and so
 I call upon no-matter-which gods;
 Judgement is easier to stomach than ingestion.
 Our gods take many names, many shapes;

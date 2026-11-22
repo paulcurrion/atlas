@@ -2,4 +2,4 @@
 title: Riddle of silence
 ---
 
-The old riddle whose answer is “silence”.
+A riddle. The answer: “silence”.
