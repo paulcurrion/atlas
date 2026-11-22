@@ -86,6 +86,8 @@ npm run editor
 
 Then open **http://localhost:4000**. It also starts the site preview on
 http://localhost:8080, which updates every time you save. Stop both with Ctrl+C.
+If an earlier copy is still running (a closed window, a crash), starting the editor
+stops it and takes over, so you never need to hunt for leftover processes.
 
 - **Link a phrase:** select words within one line of the poem. Choose an existing
   reference, a suggestion from your to-do list, or **＋ New reference**.
