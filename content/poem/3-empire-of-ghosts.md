@@ -39,7 +39,7 @@ Once there was another empire upon
 To inform you that the empire is racist,
 [[the-empire-strikes-back|The empire is striking back]] - no, wait!
 Breaking News, the empire is striking itself,
-An awful mortal auto defenestration,
+An awful mortal [[defenestration|auto defenestration]],
 A hegemon hegemon-ing itself? Surely no.
 The companies simply won’t allow it.
 In the end [[attention-is-all-you-need|attention is all they need]].
