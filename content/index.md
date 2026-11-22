@@ -2,7 +2,7 @@
 title: An Atlas of Haunted Houses
 ---
 
-A poem in six sections, and the references it carries. Every highlighted phrase leads to a reference, and every reference leads back to the poem.
+A hyperlinked poem in six sections.
 
 ![[1-haint-blue]]
 
