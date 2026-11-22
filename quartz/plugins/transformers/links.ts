@@ -96,6 +96,8 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options>> = (userOpts) 
 
                 if (isExternal && opts.openLinksInNewTab) {
                   node.properties.target = "_blank"
+                  // the opened site can't reach back into this page, and is told nothing about it
+                  node.properties.rel = "noopener noreferrer"
                 }
 
                 // don't process external links or intra-document anchors

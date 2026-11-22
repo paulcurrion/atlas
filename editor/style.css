@@ -442,3 +442,12 @@ dialog pre {
 .poem h2.line:first-child {
   margin-top: 0;
 }
+
+.editor .field-hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 4px;
+}
+#f-citation {
+  font-size: 15px;
+}

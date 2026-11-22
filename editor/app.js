@@ -498,6 +498,35 @@ function findPhrase(phrase) {
 
 // ── reference editor ─────────────────────────────────────────────────────────
 
+// Each reference can have one outside source, kept at the end of its text as
+//
+//   ## Sources
+//
+//   - Full citation. [Source](https://…)
+//
+// The form edits the citation and link separately; the text box holds the rest.
+const SOURCES = /\n*^## Sources[ \t]*$[\s\S]*/m
+
+function splitSource(body) {
+  const m = body.match(SOURCES)
+  if (!m) return { text: body.trim(), citation: "", url: "" }
+  const text = body.slice(0, m.index).trim()
+  const item = m[0].split("\n").find((l) => /^\s*[-*] /.test(l)) ?? ""
+  const link = item.match(/^\s*[-*] (.*?)\s*\[[^\]]*\]\((?:<([^>]+)>|(\S+))\)\s*$/)
+  if (link) return { text, citation: link[1].trim(), url: link[2] ?? link[3] }
+  return { text, citation: item.replace(/^\s*[-*] /, "").trim(), url: "" }
+}
+
+function joinSource(text, citation, url) {
+  citation = citation.trim().replace(/\s+/g, " ")
+  url = url.trim()
+  if (!citation && !url) return text.trim()
+  // <…> keeps links containing brackets, e.g. Wikipedia's …_(film), in one piece
+  const dest = /[()\s]/.test(url) ? `<${url}>` : url
+  const link = url ? `${citation ? " " : ""}[Source](${dest})` : ""
+  return `${text.trim()}\n\n## Sources\n\n- ${citation}${link}`
+}
+
 function confirmDiscard() {
   return !dirty || confirm("You have unsaved changes to this reference. Discard them?")
 }
@@ -559,7 +588,11 @@ function renderEditor() {
   } })
   const slug = el("input", { id: "f-slug", value: ref.slug, disabled: !creating, oninput: () => ((slugTouched = true), markDirty()) })
   const tags = el("input", { id: "f-tags", value: ref.tags.join(", "), oninput: markDirty, placeholder: "e.g. literature", list: "tag-options" })
-  const body = el("textarea", { id: "f-body", rows: 14, value: ref.body, oninput: markDirty })
+  const parts = splitSource(ref.body)
+  const body = el("textarea", { id: "f-body", rows: 14, value: parts.text, oninput: markDirty })
+  const citation = el("textarea", { id: "f-citation", rows: 3, value: parts.citation, oninput: markDirty,
+    placeholder: "e.g. Ngũgĩ wa Thiong’o, Decolonising the Mind (James Currey, 1986), p. 9." })
+  const sourceUrl = el("input", { id: "f-source-url", type: "url", value: parts.url, oninput: markDirty, placeholder: "https://…" })
 
   append(
     el("h2", { textContent: creating ? "New reference" : ref.title }),
@@ -592,6 +625,12 @@ function renderEditor() {
     el("div", { className: "see-also" }, seeInput, el("button", { className: "button small ghost", textContent: "Add", onclick: addSee })),
     el("datalist", { id: "ref-options" }, state.refs.filter((r) => r.slug !== ref.slug).map((r) => el("option", { value: r.title }))),
   )
+  append(
+    el("h3", { textContent: "Source" }),
+    el("p", { className: "field-hint", textContent: "Shown at the end of the reference. The link is red and opens in a new tab." }),
+    el("label", {}, "Full citation", citation),
+    el("label", {}, "Link to the source", sourceUrl),
+  )
 
   // pending link notice when creating
   if (creating) {
@@ -605,7 +644,11 @@ function renderEditor() {
 
   // buttons
   const save = el("button", { className: "button", textContent: creating ? (current.pendingLink ? "Create and link" : "Create") : "Save" })
-  save.addEventListener("click", () => saveRef({ creating, slug: slug.value.trim(), title: title.value, tags: tags.value, body: body.value, extra: ref.extra }))
+  save.addEventListener("click", () => {
+    const url = sourceUrl.value.trim()
+    if (url && !/^https?:\/\/\S+$/.test(url)) return status("The source link should start with https:// (or http://).", "error")
+    saveRef({ creating, slug: slug.value.trim(), title: title.value, tags: tags.value, body: joinSource(body.value, citation.value, url), extra: ref.extra })
+  })
   const row = el("div", { className: "row" }, save, el("span", { id: "dirty", className: "dirty", textContent: dirty ? "Unsaved changes" : "" }), el("span", { className: "spacer" }))
   if (creating) {
     row.append(el("button", { className: "button ghost", textContent: "Cancel", onclick: () => { dirty = false; current = null; renderEditor() } }))
