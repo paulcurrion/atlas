@@ -1,5 +1,8 @@
 ---
 title: "Second. [[pliny-haunted-house|In Haunted Houses]]"
+# the page's old address still works
+aliases:
+  - poem/2-on-in-haunted-houses
 ---
 
 Finally a place for haints to call home:
