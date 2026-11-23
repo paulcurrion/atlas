@@ -17,7 +17,7 @@ On the doorstep of the horizon
 At which civilisation stutters to its stop,
 From which [[managed-retreat|cities retreat before the sea]],
 Blue water rising to drive them out,
-All them ghosts made by muddy deeds
+All them ghosts made in murky deals
 By others now ghosts themselves. ^first-2
 
 Sea lifts to sky like [[blue-screen-of-death|the blue screen of death]] -
