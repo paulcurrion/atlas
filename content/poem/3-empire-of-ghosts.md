@@ -53,4 +53,4 @@ All empires are predators at heart. ^third-4
 
 ---
 
-Previous: [[2-on-in-haunted-houses|Second. On (In) Haunted Houses]] · Next: [[4-the-exegesis-of-douglas-quail|Fourth. The Exegesis of Douglas Quail]]
+Previous: [[2-in-haunted-houses|Second. In Haunted Houses]] · Next: [[4-the-exegesis-of-douglas-quail|Fourth. The Exegesis of Douglas Quail]]

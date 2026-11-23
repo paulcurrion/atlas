@@ -49,4 +49,4 @@ In the hallway of their haunted house. ^first-5
 
 ---
 
-Next: [[2-on-in-haunted-houses|Second. On (In) Haunted Houses]]
+Next: [[2-in-haunted-houses|Second. In Haunted Houses]]

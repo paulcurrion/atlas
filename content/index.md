@@ -6,7 +6,7 @@ A hyperlinked poem in six sections.
 
 ![[1-haint-blue]]
 
-![[2-on-in-haunted-houses]]
+![[2-in-haunted-houses]]
 
 ![[3-empire-of-ghosts]]
 

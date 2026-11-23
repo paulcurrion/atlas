@@ -37,23 +37,35 @@ h1.article-title {
 // Section pages and the landing page get verse typography: stanzas as blocks,
 // generous space between them, lines never reflowed into prose.
 
+// All spacing in the poem is measured in lines of verse (--line):
+//   between stanzas: one blank line; before a new section: two.
+
 body[data-slug="index"] article,
 body[data-slug^="poem/"] article {
+  --line: calc(1.2rem * 1.75);
   font-size: 1.2rem;
   line-height: 1.75;
 
   p {
-    margin: 0 0 2.2em;
-    padding: 0.2em 0.6em;
-    margin-left: -0.6em;
+    margin: 0 0 var(--line);
+    padding: 0;
     border-radius: 4px;
-    transition: background-color 1.2s ease;
+    transition:
+      background-color 1.2s ease,
+      box-shadow 1.2s ease;
+  }
+  p:empty {
+    display: none;
   }
 
-  // a stanza the reader has just returned to
+  // a stanza the reader has just returned to: a glow drawn outside the text,
+  // so it never changes the spacing
   p.arrived {
     background-color: var(--highlight);
-    transition: background-color 0.2s ease;
+    box-shadow: 0 0 0 0.5rem var(--highlight);
+    transition:
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   hr {
@@ -115,14 +127,18 @@ h1.section-title {
   }
   font-weight: 500;
   letter-spacing: 0.01em;
-  margin: 2rem 0 1.5rem;
   line-height: 1.25;
+  // one line of verse between a title and its first stanza
+  margin: 0 0 var(--line);
 }
+// on the landing page: two lines of verse between one section's last stanza and
+// the next section's title (and after the introduction)
 body[data-slug="index"] h1.section-title {
   font-size: 1.6rem;
-  margin-top: 4rem;
+  margin-top: calc(2 * var(--line));
 }
-body[data-slug="index"] article p:first-of-type {
+body[data-slug="index"] .transclude > p:last-of-type,
+body[data-slug="index"] .transclude > :last-child {
   margin-bottom: 0;
 }
 
@@ -194,6 +210,7 @@ body[data-slug^="refs/"] article {
 @media all and ($mobile) {
   body[data-slug="index"] article,
   body[data-slug^="poem/"] article {
+    --line: calc(1.08rem * 1.7);
     font-size: 1.08rem;
     line-height: 1.7;
   }

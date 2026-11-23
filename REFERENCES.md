@@ -14,7 +14,7 @@ sections: Macbeth (II, VI), the ghost on the road (V), managed retreat (IV), Phi
 - “Chromatic stigmata” → **[?]** your own image, or a reference?
 - “exiled until all things turn” → **[?]** not identified.
 
-## Second. On (In) Haunted Houses
+## Second. In Haunted Houses
 
 - Section title → `pliny-haunted-house` **[?]**: Pliny the Younger’s letter to Sura (Letters 7.27), the earliest surviving haunted-house story: the philosopher Athenodorus and the chained ghost in Athens.
 - “whispering gallery” → `whispering-gallery`: a gallery under a dome where a whisper carries along the wall to the far side; St Paul’s Cathedral is the best-known example.
